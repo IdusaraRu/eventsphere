@@ -4,7 +4,7 @@ import { Users, Calendar, CheckCircle, XCircle, Filter } from 'lucide-react';
 const venues = [{
   id: 1,
   name: 'TLH 1',
-  capacity: 1000,
+  capacity: 200,
   status: 'available',
   image: 'bg-gradient-to-br from-blue-500 to-indigo-600'
 }, {
@@ -22,19 +22,19 @@ const venues = [{
 }, {
   id: 4,
   name: 'TCL 1',
-  capacity: 50,
+  capacity: 100,
   status: 'available',
   image: 'bg-gradient-to-br from-purple-500 to-pink-500'
 }, {
   id: 5,
   name: 'Kuppi gaha',
-  capacity: 800,
+  capacity: 150,
   status: 'booked',
   image: 'bg-gradient-to-br from-cyan-500 to-blue-500'
 }, {
   id: 6,
   name: 'TCL2',
-  capacity: 60,
+  capacity: 100,
   status: 'available',
   image: 'bg-gradient-to-br from-slate-500 to-gray-600'
 }];

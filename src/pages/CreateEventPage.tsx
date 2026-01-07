@@ -107,15 +107,21 @@ export function CreateEventPage() {
               <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <select name="venue" value={formData.venue} onChange={handleChange} className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#1e3a8a] focus:ring-2 focus:ring-[#1e3a8a]/20 outline-none transition-all bg-white" required>
                 <option value="">Select Venue</option>
-                <option value="Hall A">Lecture Hall A (Capacity: 200)</option>
+                <option value="Hall A">TLH1(Capacity: 200)</option>
                 <option value="Auditorium">
-                  Main Auditorium (Capacity: 1000)
+                  TLH2(Capacity: 200)
                 </option>
                 <option value="Sports Complex">
-                  Sports Complex (Capacity: 500)
+                  Indoor(Capacity: 500)
                 </option>
                 <option value="Conference Room">
-                  Conference Room (Capacity: 50)
+                  TCL1 (Capacity: 100)
+                </option>
+                <option value="Conference Room">
+                  TCL2 (Capacity: 100)
+                </option>
+                <option value="Conference Room">
+                  Kuppi Gaha (Capacity: 150)
                 </option>
               </select>
             </div>
