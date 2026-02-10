@@ -8,6 +8,7 @@ import { CreateEventPage } from './pages/CreateEventPage';
 import { VenueBookingPage } from './pages/VenueBookingPage';
 import { ApprovalPanelPage } from './pages/ApprovalPanelPage';
 import { ManagePage } from './pages/ManagePage';
+import { ContactPage } from './pages/ContactPage';
 import { NotificationsPage } from './pages/NotificationsPage';
 import { MyActivityPage } from './pages/MyActivityPage';
 import { useAuth } from './context/AuthContext';
@@ -67,6 +68,7 @@ export function App() {
               <Route path="/manage" element={<ManagePage />} />
               <Route path="/notifications" element={<NotificationsPage />} />
               <Route path="/my-activity" element={<MyActivityPage />} />
+              <Route path="/contact" element={<ContactPage />} />
             </Routes>
           </Layout>
         </Router>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Calendar, PlusCircle, MapPin, CheckSquare, Bell, User, LogOut, CalendarDays, Users } from 'lucide-react';
+import { LayoutDashboard, Calendar, PlusCircle, MapPin, CheckSquare, Bell, User, LogOut, CalendarDays, Users, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 const navItems = [{
@@ -38,6 +38,10 @@ const navItems = [{
   icon: User,
   label: 'Manage',
   path: '/manage'
+}, {
+  icon: MessageSquare,
+  label: 'Contact Us',
+  path: '/contact'
 }];
 import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';

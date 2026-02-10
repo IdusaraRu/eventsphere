@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, X, Calendar, Trash2, MapPin, Plus, Edit, Download, FileSpreadsheet } from 'lucide-react';
+import { Check, X, Calendar, Trash2, MapPin, Plus, Edit, Download, FileSpreadsheet, MessageSquare } from 'lucide-react';
 
 import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
@@ -12,7 +12,7 @@ export function ApprovalPanelPage() {
   const location = useLocation();
 
   // State for active tab management
-  const [activeTab, setActiveTab] = useState<'pending' | 'approved' | 'rejected' | 'removed' | 'venues' | 'users'>(
+  const [activeTab, setActiveTab] = useState<'pending' | 'approved' | 'rejected' | 'removed' | 'venues' | 'users' | 'messages'>(
     location.pathname === '/users' ? 'users' : 'pending'
   );
 
@@ -30,6 +30,36 @@ export function ApprovalPanelPage() {
   const [editingVenue, setEditingVenue] = useState<{ name: string, capacity: number } | null>(null);
 
   const isAdmin = user?.role === 'admin';
+
+  // Messages Management
+  const [messages, setMessages] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (activeTab === 'messages' && isAdmin) {
+      fetch('/api/messages')
+        .then(res => res.json())
+        .then(data => setMessages(data))
+        .catch(err => console.error(err));
+    }
+  }, [activeTab, isAdmin]);
+
+  const handleReply = async (id: number) => {
+    const reply = window.prompt("Enter your reply:");
+    if (!reply) return;
+
+    try {
+      const res = await fetch(`/api/messages/${id}/reply`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reply })
+      });
+      if (res.ok) {
+        const updated = await (await fetch('/api/messages')).json();
+        setMessages(updated);
+        alert('Reply sent!');
+      }
+    } catch (e) { alert('Error sending reply'); }
+  };
 
   // --- Event Actions ---
 
@@ -119,7 +149,7 @@ export function ApprovalPanelPage() {
         {/* Admin Navigation Tabs */}
         {isAdmin && (
           <div className="flex bg-white rounded-xl p-1 shadow-sm border border-gray-100 overflow-x-auto">
-            {['pending', 'approved', 'rejected', 'removed', 'venues', 'users'].map((tab) => (
+            {['pending', 'approved', 'rejected', 'removed', 'venues', 'users', 'messages'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as any)}
@@ -525,6 +555,47 @@ export function ApprovalPanelPage() {
             <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
               <p className="text-xs text-gray-500">Showing {allUsers.length} registered users.</p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- MESSAGES TAB --- */}
+      {activeTab === 'messages' && isAdmin && (
+        <div className="space-y-6">
+          <h3 className="text-xl font-bold text-[#1e3a8a]">User Messages</h3>
+          <div className="grid gap-4">
+            {messages.map(msg => (
+              <div key={msg.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                      <MessageSquare className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900">{msg.subject}</h4>
+                      <p className="text-sm text-gray-500">{msg.senderName} ({msg.senderEmail})</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-gray-400">{new Date(msg.createdAt).toLocaleString()}</span>
+                </div>
+                <p className="text-gray-700 bg-gray-50 p-4 rounded-xl mb-4 text-sm">{msg.message}</p>
+
+                {msg.adminReply ? (
+                  <div className="ml-8 border-l-2 border-green-500 pl-4 py-2 bg-green-50 rounded-r-xl">
+                    <span className="text-xs font-bold text-green-700 uppercase">Admin Reply</span>
+                    <p className="text-gray-700 text-sm mt-1">{msg.adminReply}</p>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleReply(msg.id)}
+                    className="text-sm text-blue-600 font-medium hover:underline flex items-center gap-1"
+                  >
+                    <Edit className="w-3 h-3" /> Reply
+                  </button>
+                )}
+              </div>
+            ))}
+            {messages.length === 0 && <p className="text-center text-gray-500 py-10">No messages found.</p>}
           </div>
         </div>
       )}

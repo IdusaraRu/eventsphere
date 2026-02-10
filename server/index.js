@@ -108,6 +108,16 @@ const Event = sequelize.define('Event', {
     createdByEmail: DataTypes.STRING
 });
 
+const Message = sequelize.define('Message', {
+    senderName: DataTypes.STRING,
+    senderEmail: DataTypes.STRING,
+    subject: DataTypes.STRING,
+    message: DataTypes.TEXT,
+    adminReply: DataTypes.TEXT,
+    status: { type: DataTypes.STRING, defaultValue: 'unread' },
+    createdAt: DataTypes.STRING
+});
+
 // Sync Database
 const initDb = async () => {
     try {
@@ -332,6 +342,40 @@ app.delete('/api/venues/:name', async (req, res) => {
         const count = await Venue.destroy({ where: { name: req.params.name } });
         if (count === 0) return res.status(404).json({ error: 'Venue not found' });
         res.json({ success: true });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// MESSAGES API
+app.post('/api/messages', async (req, res) => {
+    try {
+        const { name, email, subject, message } = req.body;
+        await Message.create({
+            senderName: name,
+            senderEmail: email,
+            subject,
+            message,
+            createdAt: new Date().toISOString()
+        });
+        res.json({ success: true, message: 'Message sent successfully.' });
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.get('/api/messages', async (req, res) => {
+    try {
+        const msgs = await Message.findAll({ order: [['createdAt', 'DESC']] });
+        res.json(msgs);
+    } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.put('/api/messages/:id/reply', async (req, res) => {
+    try {
+        const msg = await Message.findByPk(req.params.id);
+        if (!msg) return res.status(404).json({ error: 'Message not found' });
+
+        msg.adminReply = req.body.reply;
+        msg.status = 'replied';
+        await msg.save();
+        res.json({ success: true, message: msg });
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
