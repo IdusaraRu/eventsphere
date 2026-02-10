@@ -1,0 +1,56 @@
+{
+    "events": [],
+    "approvals": [],
+    "venues": [
+        {
+            "name": "Main Auditorium",
+            "capacity": 500
+        },
+        {
+            "name": "Seminar Hall A",
+            "capacity": 100
+        },
+        {
+            "name": "Seminar Hall B",
+            "capacity": 100
+        },
+        {
+            "name": "Computer Lab 1",
+            "capacity": 50
+        },
+        {
+            "name": "Open Ground",
+            "capacity": 1000
+        }
+    ],
+    "users": [
+        {
+            "id": "1",
+            "name": "Admin User",
+            "email": "admin@eventsphere.com",
+            "role": "admin",
+            "status": "approved",
+            "occupation": "System Admin",
+            "lastLogin": "2023-10-25 09:00 AM"
+        },
+        {
+            "id": "2",
+            "name": "Dr. Smith",
+            "email": "faculty@eventsphere.com",
+            "role": "faculty",
+            "status": "approved",
+            "occupation": "Dean",
+            "department": "Faculty Technology",
+            "lastLogin": "2023-10-24 02:30 PM"
+        },
+        {
+            "id": "3",
+            "name": "Alex Student",
+            "email": "student@eventsphere.com",
+            "role": "student",
+            "status": "approved",
+            "lastLogin": "2023-10-25 10:15 AM"
+        }
+    ],
+    "broadcasts": []
+}

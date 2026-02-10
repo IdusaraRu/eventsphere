@@ -1,0 +1,23 @@
+{
+    "name": "eventsphere-server",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Backend API server for EventSphere",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "multer": "^2.0.2",
+        "mysql2": "^3.16.3",
+        "sequelize": "^6.37.7",
+        "sqlite3": "^5.1.7"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    }
+}
